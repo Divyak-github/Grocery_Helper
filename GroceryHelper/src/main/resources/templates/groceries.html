@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Grocery Helper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+
+<body>
+	<h2 align="center" style="color: Blue; font: Bold">Grocery Helper</h2>
+	<div class="container my-2">
+		<div  style="border: 4px; border-color:blue">
+			<div class="card-body">
+				<div class="col-md-10">
+					<p class="my-5">
+					<form action="#" th:action="@{/searchByCategory}"
+						th:object="${categoryItem}" method="post">
+						<table style="border: 1px;">
+							<thead />
+							<tbody>
+								<tr>
+									<td><select id="categoryId" class="form-control"
+										style="width: 300px;" th:field="*{categoryName}">
+										<option th:value="${sC}" th:text="${sC}"></option>  
+												<option th:each="i : ${categories}"
+												th:value="${i.categoryName}" th:text="${i.categoryName}"
+												></option>
+									</select></td>
+									<td><input type="submit" class="btn btn-primary"
+										value=" Search By Category" style="font: bold"></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+					</p>
+				</div>
+				<div th:switch="${groceries}" ><!-- class="container my-5" -->
+					<p class="my-5">
+						<a href="/edit" class="btn btn-primary"> <i
+							class="fas fa-user-plus ml-2"> Add GroceryItem </i></a>
+					</p>
+
+					<div class="col-md-10" id="groceryList" >
+						<h2 th:case="null">No record found !!</h2>
+						<div th:case="*">
+							<table class="table table-striped table-responsive-md" id="table"
+								>
+								<thead>
+									<tr>
+										<th>Grocery Name</th>
+										<th>Category Name</th>
+										<th>Tag a Category</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="groceryItem : ${groceries}" id="groceries">
+										<td th:text="${groceryItem.groceryName}"></td>
+										<td th:text="${groceryItem.categoryName}"></td>
+										<td><a th:href="@{/tag/{id}(id=${groceryItem.id})}"
+											class="btn btn-primary"> <i class="fas fa-user-tag ml-2"></i>
+										</a></td>
+										<td><a th:href="@{/edit/{id}(id=${groceryItem.id})}"
+											class="btn btn-primary"> <i class="fas fa-user-edit ml-2"></i>
+										</a></td>
+										<td><a th:href="@{/delete/{id}(id=${groceryItem.id})}"
+											class="btn btn-primary"> <i
+												class="fas fa-user-times ml-2"></i>
+										</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
